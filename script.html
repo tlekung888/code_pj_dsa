@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+</head>
+
+<body>
+  <script>
+    function validateEmail(email) {
+      var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailPattern.test(email);
+    }
+    function AddRow() {
+    var usernamee = document.getElementById("usernamee").value;
+    var passwordd = document.getElementById("passwordd").value;
+    var title = document.getElementById("title").value;
+    var firstname = document.getElementById("firstname").value;
+    var lastname = document.getElementById("lastname").value;
+    var age = document.getElementById("age").value;
+    var job = document.getElementById("job").value;
+    var income = document.getElementById("income").value;
+    var userId = document.getElementById("userId").value;
+    var phone = document.getElementById("phone").value;
+
+
+    if (!validateEmail(usernamee)) {
+      document.getElementById("su-result").innerHTML = "<span style='color: red;'>กรุณากรอกอีเมลให้ถูกต้อง</span>";
+      return false;
+    }
+    var passwordPattern = /^[A-Za-z0-9]{4,}$/; 
+    if (!passwordPattern.test(passwordd)) {
+          document.getElementById("su-result").innerHTML = "<span style='color: red;'>รหัสผ่านต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น</span>";
+      return false;
+    }
+
+    var thaiPattern = /^[ก-๙]+$/;
+    if (!thaiPattern.test(firstname) || !thaiPattern.test(lastname)) {
+      document.getElementById("su-result").innerHTML = "<span style='color: red;'>ชื่อต้องเป็นภาษาไทยเท่านั้น</span>";
+      return false;
+    }
+
+    if (usernamee == "" || passwordd == "" || title == "" || firstname == "" || lastname == "" || age == "" || job == "" || income == "" || userId == "" || phone == "") {
+      document.getElementById("su-result").innerHTML = "<span style='color: red;'>กรอกข้อมูลให้ครบ</span>";
+      return false;
+    } else {
+      google.script.run.withSuccessHandler(function(response) {
+        if (response === 'Username already exists') {
+          document.getElementById("su-result").innerHTML = "<span style='color: red;'>This username is already in use</span>";
+        } else if (response === 'Account created successfully') {
+          document.getElementById("su-result").innerHTML = "<span style='color: green;'>Sign up successfully</span>";
+        }
+      }).AddRecord(usernamee, passwordd, title, firstname, lastname, age, job, income, userId, phone);
+    }
+  }
+
+
+    function LoginUser() {
+    var username = document.getElementById("username").value.trim();
+    var password = document.getElementById("password").value.trim();
+    
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    google.script.run.withSuccessHandler(function(output) {
+        console.log("Login Output:", output);
+        
+        if (output === 'admin') {
+            document.getElementById("page1_id1").className = "page1_class1-off";
+            document.getElementById("page4_id1").className = "page4_id1";
+        }else if (output === 'user') {
+            document.getElementById("page1_id1").className = "page1_class1-off";
+            document.getElementById("page3_id1").className = "page3_id1";
+        } else {
+            document.getElementById("errorMessage").innerHTML = "Not found account";
+        }
+    }).checkLogin(username, password);
+}
+
+function togglePassword() {
+        var passwordField = document.getElementById('password');
+        var passwordType = passwordField.type;
+        var icon = document.querySelector('#togglePassword i');
+
+        if (passwordType === 'password') {
+          passwordField.type = 'text'; // แสดงรหัสผ่าน
+          icon.classList.remove('fa-eye'); // ลบไอคอนเปิดตา
+          icon.classList.add('fa-eye-slash'); // เพิ่มไอคอนปิดตา
+        } else {
+          passwordField.type = 'password'; // ซ่อนรหัสผ่าน
+          icon.classList.remove('fa-eye-slash'); // ลบไอคอนปิดตา
+          icon.classList.add('fa-eye'); // เพิ่มไอคอนเปิดตา
+        }
+      }
+
+
+function searchUserById() {
+  var userId = document.getElementById("searchUserId").value.trim();
+
+  if (!userId) {
+    alert("Please enter a User ID.");
+    return;
+  }
+  console.log("Searching for User ID:", userId);
+  // Call the Apps Script function to search for the user by ID
+  google.script.run.withSuccessHandler(function(userData) {
+    if (userData) {
+      // Populate the form with user data
+      document.getElementById("editUsername").value = userData.username;
+      document.getElementById("editFirstname").value = userData.firstname;
+      document.getElementById("editLastname").value = userData.lastname;
+      document.getElementById("editPhone").value = userData.phone;
+      document.getElementById("editJob").value = userData.job;
+      document.getElementById("editAge").value = userData.age;
+      document.getElementById("editPassword").value = userData.password;
+      document.getElementById("editTitle").value = userData.title;
+      document.getElementById("editUserId").value = userData.userId;
+      document.getElementById("editIncome").value = userData.income;
+      document.getElementById("editRole").value = userData.role;
+    } else {
+      alert("User not found!");
+
+    }
+  }).getUserDataById(userId); // This function should be defined in Google Apps Script
+}
+
+
+function saveUserChanges() {
+    var usernameee = document.getElementById("editUsername").value;
+    var passworddd = document.getElementById("editPassword").value;
+    var titlee = document.getElementById("editTitle").value;
+    var firstnamee = document.getElementById("editFirstname").value;
+    var lastnamee = document.getElementById("editLastname").value;
+    var agee = document.getElementById("editAge").value;
+    var jobb = document.getElementById("editJob").value;
+    var incomee = document.getElementById("editIncome").value;
+    var userIdd = document.getElementById("editUserId").value;
+    var phonee = document.getElementById("editPhone").value;
+    var rolee = document.getElementById("editRole").value;
+    console.log(usernameee, passworddd, titlee, firstnamee, lastnamee, agee, jobb, incomee, userIdd, phonee,rolee)
+  // Call the Apps Script function to save the changes
+  google.script.run.withSuccessHandler(function(response) {
+    if (response === 'Update successful') {
+      alert('User data updated successfully!');
+    } else {
+      console.log(response)
+      alert('Error updating user data.');
+    }
+  }).updateUserData(usernameee, passworddd, titlee, firstnamee, lastnamee, agee, jobb, incomee, userIdd, phonee,rolee);
+}
+
+  </script>
+</body>
+
+</html>
