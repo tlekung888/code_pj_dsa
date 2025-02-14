@@ -3,373 +3,233 @@
 
 <head>
   <base target="_top">
-  <script>
-    function AddRow() {
-    var usernamee = document.getElementById("usernamee").value;
-    var passwordd = document.getElementById("passwordd").value;
-    var title = document.getElementById("title").value;
-    var firstname = document.getElementById("firstname").value;
-    var lastname = document.getElementById("lastname").value;
-    var age = document.getElementById("age").value;
-    var job = document.getElementById("job").value;
-    var income = document.getElementById("income").value;
-    var address = document.getElementById("address").value;
-    var phone = document.getElementById("phone").value;
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-    var passwordPattern = /^[A-Za-z0-9]{4,}$/; 
-    if (!passwordPattern.test(passwordd)) {
-      alert("รหัสผ่านต้องเป็นตัวอักษรภาษาอังกฤษหรือตัวเลขเท่านั้น!");
-      return false;
-    }
+  <?!= include('css'); ?>
+  <?!= include('script'); ?>
 
-    var thaiPattern = /^[ก-๙]+$/;
-    if (!thaiPattern.test(firstname) || !thaiPattern.test(lastname)) {
-      alert("ชื่อและนามสกุลต้องเป็นภาษาไทยเท่านั้น!");
-      return false;
-    }
-
-    if (usernamee == "" || passwordd == "" || title == "" || firstname == "" || lastname == "" || age == "" || job == "" || income == "" || address == "" || phone == "") {
-      alert("กรุณากรอกข้อมูลให้ครบทุกช่อง");
-      return false;
-    } else {
-      google.script.run.withSuccessHandler(function(response) {
-        if (response === 'Username already exists') {
-          alert('ชื่อผู้ใช้ซ้ำ กรุณากรอกใหม่');
-        } else if (response === 'Account created successfully') {
-          alert('บัญชีของคุณถูกสร้างเรียบร้อยแล้ว');
-          document.getElementById("page2_id1").className = "page2_id1-off";
-          document.getElementById("page3_id1").className = "page3_id1";
-        }
-      }).AddRecord(usernamee, passwordd, title, firstname, lastname, age, job, income, address, phone);
-    }
-  }
-
-
-    function LoginUser() {
-    var username = document.getElementById("username").value.trim();
-    var password = document.getElementById("password").value.trim();
-    
-    console.log("Username:", username);
-    console.log("Password:", password);
-
-    google.script.run.withSuccessHandler(function(output) {
-        console.log("Login Output:", output);
-        
-        if (output === 'admin') {
-            document.getElementById("displayadmin").innerHTML = username;
-            document.getElementById("page1_id1").className = "page1_class1-off";
-            document.getElementById("page5_id1").className = "page5_id1";
-        }else if (output === 'user') {
-            document.getElementById("displayuser").innerHTML = username;
-            document.getElementById("page1_id1").className = "page1_class1-off";
-            document.getElementById("page4_id1").className = "page4_id1";
-        } else {
-            document.getElementById("errorMessage").innerHTML = "Not found account";
-        }
-    }).checkLogin(username, password);
-}
-    
-function function1(){
-    document.getElementById("page1_id1").className = "page1_class1-off";
-    document.getElementById("page2_id1").className = "page2_id1";
-}
- 
-function function3(){ 
-  document.getElementById("page3_id1").className = "page3_id1-off";
-  document.getElementById("page1_id1").className = "page1_id1"; 
-}
-
-  </script>
-  <style>
-    /*page1*/
-    .page1_class1-off {
-      display: none;
-    }
-
-
-    /*page2*/
-    .page2_class1 {
-      display: none;
-    }
-
-    .page2_id1-off {
-      display: none;
-    }
-
-    /*page3*/
-    .page3_class1 {
-      display: none;
-
-    }
-
-    .page3_id1-off {
-      display: none;
-    }
-
-    /*page4*/
-    .page4_class1 {
-      display: none;
-
-    }
-
-    .page4_id1-off {
-      display: none;
-    }
-
-    .page5_class1 {
-      display: none;
-
-    }
-
-    .page5_id1-off {
-      display: none;
-    }
-
-    input[type=text]:hover {
-      border-bottom: 2px solid black;
-    }
-
-    input[type=number]:hover {
-      border-bottom: 2px solid black;
-    }
-
-    input[type=password]:hover {
-      border-bottom: 2px solid black;
-    }
-
-    .user {
-      display: inline-block;
-      width: 75px;
-      height: 75px;
-      border: 8px solid black;
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
-      box-sizing: border-box;
-    }
-
-    /*the head/*/
-    .user::before {
-      content: '';
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background: black;
-      border-radius: 50%;
-      position: absolute;
-      left: calc(50% - 11px);
-      top: 10px;
-    }
-
-    /*the body*/
-    .user::after {
-      content: '';
-      display: inline-block;
-      width: 50px;
-      height: 40px;
-      background: black;
-      border-radius: 50%;
-      position: absolute;
-      left: calc(50% - 24px);
-      top: 39px;
-
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4;
-      }
-
-      .con-nav {
-        background: #333;
-        color: white;
-        padding: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .con-nav a {
-        color: white;
-        text-decoration: none;
-        margin-left: 15px;
-      }
-
-      .container {
-        width: 300px;
-        margin: 50px auto;
-        padding: 20px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-      }
-
-      h2 {
-        margin-bottom: 20px;
-      }
-
-      .input-group {
-        margin-bottom: 15px;
-        text-align: left;
-      }
-
-      .input-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      .input-group input {
-        width: 100%;
-        padding: 8px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      .login-btn {
-        width: 100%;
-        padding: 10px;
-        background: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 20px;
-      }
-
-      .login-btn:hover {
-        background: #0056b3;
-      }
-
-      .con-btn {
-        display: flex;
-      }
-
-      .con-btn button {
-        margin: 0 10px;
-      }
-
-      input {
-        width: 100%;
-        /* ทำให้ input ขยายเต็มพื้นที่ของ container */
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        /* ป้องกัน input ล้นขอบ */
-      }
-
-      select {
-        width: 100%;
-        /* ทำให้ input ขยายเต็มพื้นที่ของ container */
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-        /* ป้องกัน input ล้นขอบ */
-      }
-    }
-  </style>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <br><br>
-  <!--page1-->
-  <center>
-    <div class="page1_class1" id="page1_id1">
-      <h1>Login Form</h1>
-      <br>
-      <input type="email" id="username" placeholder="Username"/><br>
-      <br>
-      <input type="password" id="password" placeholder="Password" />
-      <br><span id="errorMessage" style="color: red" ></span><br>
-      <input type="submit" value="Login" onclick="LoginUser()" /><br>
-      <br>
-      <b>หากยังไม่ได้สมัครสมาชิก</b>
-      <input type="button" onClick="function1()" value="Create New" />
-    </div>
+  <!-- page1 -->
+  <div class="page1_class1" id="page1_id1">
+    <div class="container" id="container">
+      <div class="form-container sign-up">
+        <div class="con-log">
+          <h1>Create Account</h1>
+          <span>or use your email for registration</span><br>
+          <div class="slidebar">
+            <input type="email" id="usernamee" placeholder="Email" required />
+            <input type="password" id="passwordd" placeholder="Password" required />
 
-    <!--page2-->
-    <div class="page2_class1" id="page2_id1">
-      <h1>Create Account</h1>
-      <input type="email" id="usernamee" placeholder="Email" /><br>
-      <br>
-      <input type="password" id="passwordd" placeholder="Create password" /><br>
-      <br>
-      <select id="title" name="title" >
-                        <option value="" disabled selected>คำนำหน้า</option>
-                        <option value="เด็กชาย">เด็กชาย</option>
-                        <option value="เด็กหญิง">เด็กหญิง</option>
-                        <option value="นาย">นาย</option>
-                        <option value="นางสาว">นางสาว</option>
-                        <option value="นาง">นาง</option>
-                    </select>/<br>
-      <br>
-      <input type="text" id="firstname" name="name" placeholder="ชื่อ">/<br>
-      <br>
-      <input type="text" id="lastname" name="lastname" placeholder="นามสกุล">/<br>
-      <br>
-      <input type="number" id="age" name="age" required>/<br>
-      <br>
-      <select id="job" name="job">
-                        <option value="" disabled selected>อาชีพ</option>
-                        <option value="นักเรียน">นักเรียน</option>
-                        <option value="พนักงานบริษัท">พนักงานบริษัท</option>
-                        <option value="เจ้าของธุรกิจ">เจ้าของธุรกิจ</option>
-                        <option value="ฟรีแลนซ์">ฟรีแลนซ์</option>
-                        <option value="เกษตรกร">เกษตรกร</option>
-                        <option value="อื่นๆ">อื่นๆ</option>
-                    </select>/<br>
-      <br>
-      <select id="income" name="income">
-                        <option value="" disabled selected>รายได้</option>
-                        <option value="ต่ำกว่า 10,000">ต่ำกว่า 10,000</option>
-                        <option value="10,000 - 30,000">10,000 - 30,000</option>
-                        <option value="30,000 - 50,000">30,000 - 50,000</option>
-                        <option value="มากกว่า 50,000">มากกว่า 50,000</option>
-                    </select>/<br>
-      <br>
-      <input type="text" id="address" name="address" placeholder="ที่อยู๋" required>/<br>
-      <br>
-      <input type="number" id="phone" placeholder="เบอร์โทร"  /><br><br>
-      <b style="color:red;">รหัสผ่านต้องเป็น a-z หรือ ตัวเลขเท่านั้น</b><br><br>
-      <input type="submit" value="Create" onclick="AddRow()" />
-      <br>
-    </div>
+            <select id="title" name="title" required>
+      <option value="" disabled selected >Title</option>
+      <option value="เด็กชาย">เด็กชาย</option>
+      <option value="เด็กหญิง">เด็กหญิง</option>
+      <option value="นาย">นาย</option>
+      <option value="นางสาว">นางสาว</option>
+      <option value="นาง">นาง</option>
+    </select>
 
-    <!--page3-->
-    <div class="page3_class1" id="page3_id1">
-      <center>
-        <h2> Your account has been successfully created. Login to your account</h2>
-        <input type="submit"  onClick="function3()" value="Login" ><br>
-    </div>
+            <input type="text" id="firstname" name="name" placeholder="Name" required />
+            <input type="text" id="lastname" name="lastname" placeholder="Lastname" required />
+            <input type="number" id="age" name="age" placeholder="Age" required />
 
-    <!--page4-->
-    <div class="page4_class1" id="page4_id1">
-      <center>
-        <br>
-        <h2>Hi <b id="displayuser" ></b>!</h2>
-        <div class="user"></div>
-        <h2> You are user</h2>
-        <h2>**************</h2>
-        <br>
-    </div>
+            <select id="job" name="job" required>
+      <option value="" disabled selected>Job</option>
+      <option value="นักเรียน">นักเรียน</option>
+      <option value="พนักงานบริษัท">พนักงานบริษัท</option>
+      <option value="เจ้าของธุรกิจ">เจ้าของธุรกิจ</option>
+      <option value="ฟรีแลนซ์">ฟรีแลนซ์</option>
+      <option value="เกษตรกร">เกษตรกร</option>
+      <option value="อื่นๆ">อื่นๆ</option>
+    </select>
 
-    <div class="page5_class1" id="page5_id1">
-      <center>
-        <br>
-        <h2>Hi <b id="displayadmin" ></b>!</h2>
-        <div class="user"></div>
-        <h2> You are admin</h2>
-        <h2>**************</h2>
-        <br>
+            <select id="income" name="income" required>
+      <option value="" disabled selected>Income</option>
+      <option value="ต่ำกว่า 10,000">ต่ำกว่า 10,000</option>
+      <option value="10,000 - 30,000">10,000 - 30,000</option>
+      <option value="30,000 - 50,000">30,000 - 50,000</option>
+      <option value="มากกว่า 50,000">มากกว่า 50,000</option>
+    </select>
+
+            <input type="number" id="userId" name="userId" placeholder="ID" required />
+            <input type="number" id="phone" placeholder="Phone" required />
+          </div>
+          <button onclick="AddRow()">Sign Up</button><br>
+          <span id="su-result"></span>
+        </div>
+      </div>
+
+      <div class="form-container sign-in">
+        <div class="con-log">
+          <h1>Sign In</h1>
+          <span>or use your email password</span><br>
+          <input type="email" id="username" placeholder="Username" required/>
+          <input type="password" id="password" placeholder="Password" required/>
+          <a href="#">Forget Your Password?</a>
+          <span id="errorMessage" style="color: red" ></span>
+          <button onclick="LoginUser()">Sign In</button>
+        </div>
+      </div>
+
+      <div class="toggle-container">
+        <div class="toggle">
+          <div class="toggle-panel toggle-left">
+            <h1>Digimon Wallet</h1>
+            <p>Sign in to get the rich</p>
+            <button class="hidden" id="login">Sign In</button>
+          </div>
+          <div class="toggle-panel toggle-right">
+            <h1>Digimon Wallet</h1>
+            <p>If you don't have any account</p>
+            <button class="hidden" id="register">Sign Up</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </center>
+  </div>
+
+
+  <!-- page2 -->
+  <div class="page2_class1" id="page2_id1">
+    <center>
+      <h2>Your account has been successfully created. Login to your account</h2>
+      <input type="submit" value="Login" class="smt-btn"><br>
+    </center>
+  </div>
+
+  <!-- page3 -->
+  <div class="page3_class1" id="page3_id1">
+    <center>
+      <br>
+      <h2>Hi <b id="displayuser"></b>!</h2>
+      <div class="user"></div>
+      <h2>You are user</h2>
+      <div></div>
+      <br>
+    </center>
+  </div>
+
+  <!-- page4 -->
+  <div class="page4_class1" id="page4_id1">
+    <div class="p4-con">
+      <div class="side-bar">
+        <H1>Admin</H1>
+      </div>
+      <div class="content">
+        <h3>Search User by ID</h3>
+        <div class="con-search">
+          <label for="searchUserId">UserID:</label>
+          <input type="text" id="searchUserId" placeholder="Enter User ID" />
+        </div>
+        <div>
+          <button class="s-btn" onclick="searchUserById()">Search</button>
+        </div>
+
+        <!-- Form to edit user data -->
+        <h3>Edit User Data</h3>
+        <div></div>
+        <div></div>
+        <div>
+          <label for="editUsername">Username:</label>
+          <input type="text" id="editUsername" placeholder="Username" />
+        </div>
+        <div>
+          <label for="editPassword">Password</label>
+          <input type="password" id="editPassword" placeholder="Password" />
+        </div>
+        <div>
+          <label for="editTitle">Title</label><br>
+          <select id="editTitle" name="editTitle">
+              <option value="" disabled selected>Title</option>
+              <option value="เด็กชาย">เด็กชาย</option>
+              <option value="เด็กหญิง">เด็กหญิง</option>
+              <option value="นาย">นาย</option>
+              <option value="นางสาว">นางสาว</option>
+              <option value="นาง">นาง</option>
+            </select>
+        </div>
+
+        <div>
+          <label for="editFirstname">Firstname</label>
+          <input type="text" id="editFirstname" placeholder="First Name" />
+        </div>
+
+        <div>
+          <label for="editLastname">Lastname</label>
+          <input type="text" id="editLastname" placeholder="Last Name" />
+        </div>
+
+        <div>
+          <label for="editAge">Age</label>
+          <input type="number" id="editAge" name="editAge" min="15" max="100">
+        </div>
+
+        <div>
+          <label for="editJob">Job</label><br>
+          <select id="editJob" name="editJob">
+              <option value="" disabled selected>อาชีพ</option>
+              <option value="นักเรียน">นักเรียน</option>
+              <option value="พนักงานบริษัท">พนักงานบริษัท</option>
+              <option value="เจ้าของธุรกิจ">เจ้าของธุรกิจ</option>
+              <option value="ฟรีแลนซ์">ฟรีแลนซ์</option>
+              <option value="เกษตรกร">เกษตรกร</option>
+              <option value="อื่นๆ">อื่นๆ</option>
+            </select>
+        </div>
+
+        <div>
+          <label for="editIncome">Income</label>
+          <select id="editIncome" name="editIncome">
+              <option value="" disabled selected>รายได้</option>
+              <option value="ต่ำกว่า 10,000">ต่ำกว่า 10,000</option>
+              <option value="10,000 - 30,000">10,000 - 30,000</option>
+              <option value="30,000 - 50,000">30,000 - 50,000</option>
+              <option value="มากกว่า 50,000">มากกว่า 50,000</option>
+            </select>
+        </div>
+
+        <div>
+          <label for="editUserId">ID</label>
+          <input type="number" id="editUserId" name="editUserId" placeholder="ID" disabled>
+        </div>
+
+        <div>
+          <label for="editPhone">Phone Number</label>
+          <input type="number" id="editPhone" placeholder="Phone Number" />
+        </div>
+
+        <div>
+          <label for="editRole">Role</label><br>
+          <select id="editRole" name="editRole">
+              <option value="" disabled selected>Role</option>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <button class="btn" onclick="saveUserChanges()">Update</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('container');
+    const registerBtn = document.getElementById('register');
+    const loginBtn = document.getElementById('login');
+
+    registerBtn.addEventListener('click', () => {
+      container.classList.add("active");
+    });
+
+    loginBtn.addEventListener('click', () => {
+      container.classList.remove("active");
+    });
+  </script>
 </body>
 
 </html>
