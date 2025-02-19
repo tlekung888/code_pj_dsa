@@ -7,6 +7,50 @@
 
 <body>
   <script>
+    function showPage(pageId) {
+    // ลบทุก class ที่เกี่ยวข้องออกจากทุก content
+    document.querySelectorAll('.content').forEach(div => {
+        div.classList.remove('search-page', 'gen-page', 'piority-page', 'give-page','info-page','active');
+    });
+
+    // ดึง element ที่ต้องการ
+    let targetPage = document.getElementById(pageId);
+    if (!targetPage) return; // ป้องกัน error ถ้า id ไม่ตรง
+
+    // เพิ่ม class ที่เหมาะสม
+    if (pageId === 'search') {
+        targetPage.classList.add('search-page');
+    } else if (pageId === 'generate') {
+        targetPage.classList.add('gen-page');
+    } else if (pageId === 'piority') {
+        targetPage.classList.add('piority-page');
+    }else if (pageId === 'give'){
+        targetPage.classList.add('give-page');
+    }else if (pageId === 'info'){
+        targetPage.classList.add('info-page');
+    }
+
+    // เพิ่ม class 'active' เพื่อแสดงหน้า
+    targetPage.classList.add('active');
+}
+
+function goBack() {
+  // ซ่อนทุกหน้าด้วยการเลือก div ที่มี id ของแต่ละหน้า
+  document.getElementById('page1_id1').style.display = 'none';
+  document.getElementById('page2_id1').style.display = 'none';
+  document.getElementById('page3_id1').style.display = 'none';
+  document.getElementById('page4_id1').style.display = 'none';
+  // document.getElementById('active').style.display = 'none';
+   const pages = document.querySelectorAll('.gen-con');
+  pages.forEach(page => {
+    page.style.display = 'none';
+  });
+
+  // แสดงหน้าแรก
+  document.getElementById('page1_id1').style.display = 'block';
+}
+
+
     function validateEmail(email) {
       var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
       return emailPattern.test(email);
@@ -46,9 +90,11 @@
     } else {
       google.script.run.withSuccessHandler(function(response) {
         if (response === 'Username already exists') {
-          document.getElementById("su-result").innerHTML = "<span style='color: red;'>This username is already in use</span>";
+          document.getElementById("su-result").innerHTML = "<span style='color: red;'>This Username already exists</span>";
         } else if (response === 'Account created successfully') {
           document.getElementById("su-result").innerHTML = "<span style='color: green;'>Sign up successfully</span>";
+        }else if (response === 'UserId already exists'){
+          document.getElementById("su-result").innerHTML = "<span style='color: red;'>UserId already exists</span>";
         }
       }).AddRecord(usernamee, passwordd, title, firstname, lastname, age, job, income, userId, phone);
     }
@@ -125,6 +171,9 @@ function searchUserById() {
 }
 
 
+
+
+
 function saveUserChanges() {
     var usernameee = document.getElementById("editUsername").value;
     var passworddd = document.getElementById("editPassword").value;
@@ -148,8 +197,91 @@ function saveUserChanges() {
     }
   }).updateUserData(usernameee, passworddd, titlee, firstnamee, lastnamee, agee, jobb, incomee, userIdd, phonee,rolee);
 }
+    function generateTestUsers() {
+      var count = document.getElementById("gen-input").value;
+      if (!count || count <= 0) {
+        alert("Please enter a valid number of users.");
+        return;
+      }
+      
+      google.script.run.withSuccessHandler(function(response) {
+        document.getElementById("genResult").innerText = response;
+      }).generateUsers(parseInt(count));
+    }
+
+    function loadPhaseGroups() {
+  google.script.run.withSuccessHandler(function(data) {
+    document.getElementById("group1").innerText = data["phase1"].join(", ");
+    document.getElementById("group2").innerText = data["phase2"].join(", ");
+    document.getElementById("group3").innerText = data["phase3"].join(", ");
+  }).getGroupsByPhase();
+}
+
+
+function setPhase(){
+  var group = document.getElementById("group").value;
+  var phase = document.getElementById("g-phase").value;
+  var persen = document.getElementById("persen").value;
+  
+  // ตรวจสอบว่ามีการเลือกค่าหรือไม่
+  if (group === "" || phase === "" || persen === "") {
+    document.getElementById("result-phase").innerHTML = "⚠ กรุณาเลือก Group และ Phase ก่อนกด Submit";
+    return;
+  }
+
+  google.script.run.withSuccessHandler(function(response) {
+    document.getElementById("result-phase").innerHTML = response;
+  }).updatePhaseByGroup(group, phase,persen);
+}
+
+function loadBalance() {
+  google.script.run.withSuccessHandler(function(balance) {
+    document.getElementById("balance").innerHTML = balance;
+  }).getBalance();  // ✅ เรียกฟังก์ชันจาก Apps Script
+}
+
+function loadCount() {
+  google.script.run.withSuccessHandler(function(count) {
+    document.getElementById("count-list").innerHTML = count;
+  }).getVerifiedCount();
+}
+
+function loadTable() {
+  google.script.run.withSuccessHandler(function(tableHTML) {
+    document.querySelector(".table").innerHTML = tableHTML;
+  }).getTableData();
+}
+function loadPayed() {
+  google.script.run.withSuccessHandler(function(pay) {
+    document.getElementById("payed").innerHTML = pay;
+  }).getPayed();
+}
+
+// ✅ โหลดค่าทันทีเมื่อหน้าเว็บโหลดเสร็จ
+window.onload = function() {
+  loadTable();
+  loadBalance(); // ✅ เรียกใช้ฟังก์ชันที่ถูกต้อง
+  loadCount();
+  loadPayed();
+};
+
+// ✅ ฟังก์ชันรีเฟรชข้อมูล
+function refreshData() {
+  loadTable();
+  loadBalance();
+  loadCount();
+  loadPayed();
+  loadPhaseGroups();
+}
+
+// ✅ โหลดค่าทันทีเมื่อหน้าเว็บโหลดเสร็จ
+window.onload = function() {
+  refreshData();
+};
+
 
   </script>
+
 </body>
 
 </html>
