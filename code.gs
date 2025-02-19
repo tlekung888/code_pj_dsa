@@ -1,7 +1,3 @@
-function setBudget() {
-  var budget = 1000000;
-  return budget;
-}
 function doGet(e) {
   var x = HtmlService.createTemplateFromFile("index");
   var y = x.evaluate();
@@ -88,6 +84,22 @@ function checkUsernameExists(username, userId, sheet) {
     }
   }
   return false;  // ถ้าไม่พบ username ซ้ำ
+}
+
+function getUserBalance(username) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("DATA"); // แก้ชื่อชีตให้ตรงกับที่ใช้จริง
+  var data = sheet.getDataRange().getValues(); // ดึงข้อมูลทั้งหมดในชีต
+  for (var i = 1; i < data.length; i++) { // ลูปค้นหาผู้ใช้ (เริ่มที่ 1 เพราะแถว 0 เป็นหัวข้อ)
+    if (data[i][0] === username) { // สมมติว่า username อยู่คอลัมน์ A (index 0)
+      return data[i][17]; // คอลัมน์ R คือ index 17 (เริ่มนับจาก 0)
+    }
+  }
+  return "ไม่พบข้อมูล"; // กรณีไม่มีข้อมูล
+}
+function test(){
+  var username = 'test1@gmail.com';
+  result = getUserBalance(username);
+  Logger.log(result)
 }
 
 function updateUserData(usernameee, passworddd, titlee, firstnamee, lastnamee, agee, jobb, incomee, userIdd, phonee, rolee) {
@@ -187,61 +199,6 @@ function generateUsers(count) {
   return count + " users generated successfully";
 }
 
-function testUpdateUserData() {
-  // Sample data for testing
-  var usernameee = 'testUser';
-  var passworddd = 'testPassword';
-  var titlee = 'นาย';
-  var firstnamee = 'ฌาาน';
-  var lastnamee = 'นาบบบ';
-  var agee = 30;
-  var jobb = 'พนักงานบริษัท';
-  var incomee = '30,000 - 50,000';
-  var userIdd = 22222;  // ID of the user to be updated
-  var phonee = '0123456789';
-  var rolee = 'admin';
-
-  // Call the function to update user data
-  var result = updateUserData(usernameee, passworddd, titlee, firstnamee, lastnamee, agee, jobb, incomee, userIdd, phonee, rolee, group);
-  // Log the result to the console
-  Logger.log(result);
-
-  // Optionally, you can verify the result by checking the updated value in the sheet manually
-}
-
-
-
-
-function testGetUserDataById() {
-  var userId = "2222"; // ใส่ userId ที่ต้องการทดสอบ
-  var result = getUserDataById(userId);
-  if (result) {
-    Logger.log("User found: " + JSON.stringify(result)); // แสดงผลลัพธ์ที่ได้
-  } else {
-    Logger.log("User not found"); // ถ้าไม่พบ user
-  }
-}
-
-function testGen() {
-  var x = 10;
-  var result = generateUsers(x);
-  Logger.log(result);
-}
-
-// function onEdit(e) {
-//   if (!e || !e.source) return; // ตรวจสอบว่า e และ e.source มีค่าหรือไม่
-
-//   var sheet = e.source.getActiveSheet();
-//   var maxRows = 50; // กำหนดจำนวนแถวสูงสุดที่ต้องการ
-
-//   var totalRows = sheet.getMaxRows(); // จำนวนแถวทั้งหมดของชีต
-//   var lastRow = sheet.getLastRow(); // แถวสุดท้ายที่มีข้อมูล
-
-//   if (totalRows > maxRows) {
-//     sheet.deleteRows(maxRows + 1, totalRows - maxRows); // ลบแถวที่เกินจาก maxRows
-//     SpreadsheetApp.getUi().alert("จำกัดจำนวนแถวสูงสุดที่ " + maxRows + " แถว");
-//   }
-// }
 
 function updatePhaseByGroup(group, phase, persen) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -294,10 +251,6 @@ function updatePhaseByGroup(group, phase, persen) {
     return `ไม่พบข้อมูลกลุ่ม ${group} หรือกลุ่ม ${group} อาจมีกำหนดแจกเงินแล้ว`;
   }
 
-}
-
-function testUpdatePhase() {
-  updatePhaseByGroup("rich", "เฟส1");
 }
 
 function resetStatusAll() {
@@ -375,10 +328,6 @@ function getVerifiedCount() {
 }
 
 
-function showBalance(){
-
-}
-
 function getGroupsByPhase() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var data = sheet.getDataRange().getValues(); // ✅ ดึงข้อมูลทั้งหมด
@@ -424,6 +373,89 @@ function getGroupsByPhase() {
   Logger.log("✅ ข้อมูลที่ได้: %s", JSON.stringify(result)); // 🛠 Debug ข้อมูลสุดท้าย
   return result;
 }
+
+
+function getBudgetByPhase() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues(); // ดึงข้อมูลทั้งหมด
+
+  var phaseColumn = 14; // คอลัมน์ O (Phase)
+  var groupColumn = 11; // คอลัมน์ L (Group)
+  var budgetColumn = 16; // คอลัมน์ Q (Budget)
+
+  var phaseBudgets = {
+    "phase1": { "groupSet": new Set(), "totalBudget": 0 },
+    "phase2": { "groupSet": new Set(), "totalBudget": 0 },
+    "phase3": { "groupSet": new Set(), "totalBudget": 0 }
+  };
+
+  for (var i = 1; i < data.length; i++) { // เริ่มจากแถวที่ 2 (ข้าม Header)
+    var phase = data[i][phaseColumn];
+    var group = data[i][groupColumn];
+    var budget = data[i][budgetColumn];
+
+    if (!phase || !group || !budget) continue; // ข้ามแถวที่ว่าง
+
+    phase = phase.toString().trim().toLowerCase(); // แปลง phase เป็นตัวพิมพ์เล็ก
+    group = group.toString().trim(); // แปลง group เป็นตัวพิมพ์เล็ก
+    budget = parseFloat(budget) || 0; // แปลงบัดเจตเป็นตัวเลข
+
+    // ตรวจสอบว่าเฟสใด และกลุ่มนั้นเคยมีบัดเจตในเฟสนั้นหรือไม่
+    if (phase === "phase1") {
+      // ตรวจสอบว่ากลุ่มนี้เคยมีบัดเจตใน phase1 หรือยัง
+      if (!phaseBudgets["phase1"].groupSet.has(group)) {
+        // หากยังไม่เคยมี ให้บวกบัดเจต
+        phaseBudgets["phase1"].groupSet.add(group);
+        phaseBudgets["phase1"].totalBudget += budget;
+      }
+    } else if (phase === "phase2") {
+      // ตรวจสอบว่ากลุ่มนี้เคยมีบัดเจตใน phase2 หรือยัง
+      if (!phaseBudgets["phase2"].groupSet.has(group)) {
+        // หากยังไม่เคยมี ให้บวกบัดเจต
+        phaseBudgets["phase2"].groupSet.add(group);
+        phaseBudgets["phase2"].totalBudget += budget;
+      }
+    } else if (phase === "phase3") {
+      // ตรวจสอบว่ากลุ่มนี้เคยมีบัดเจตใน phase3 หรือยัง
+      if (!phaseBudgets["phase3"].groupSet.has(group)) {
+        // หากยังไม่เคยมี ให้บวกบัดเจต
+        phaseBudgets["phase3"].groupSet.add(group);
+        phaseBudgets["phase3"].totalBudget += budget;
+      }
+    }
+  }
+
+  // คืนค่าบัดเจตทั้งหมดในแต่ละเฟส
+  var result = {
+    "phase1": phaseBudgets["phase1"].totalBudget,
+    "phase2": phaseBudgets["phase2"].totalBudget,
+    "phase3": phaseBudgets["phase3"].totalBudget
+  };
+
+  Logger.log("✅ ข้อมูลที่ได้: %s", JSON.stringify(result)); // แสดงผลลัพธ์ใน Log
+  return result;
+}
+
+function deleteUser(userId) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = sheet.getDataRange().getValues(); // ดึงข้อมูลทั้งหมดจากแผ่นงาน
+  var userIdColumn = 8; // สมมติว่า User ID อยู่ในคอลัมน์แรก (คอลัมน์ 0)
+
+  for (var i = 1; i < data.length; i++) {
+    var currentUserId = data[i][userIdColumn];
+    if (currentUserId == userId) {
+      sheet.deleteRow(i + 1); // ลบแถวที่พบ User ID
+      break;
+    }
+  }
+}
+
+
+
+
+
+
+
 
 
 
