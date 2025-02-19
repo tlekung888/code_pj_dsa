@@ -34,21 +34,33 @@
     targetPage.classList.add('active');
 }
 
-function goBack() {
-  // ซ่อนทุกหน้าด้วยการเลือก div ที่มี id ของแต่ละหน้า
-  document.getElementById('page1_id1').style.display = 'none';
-  document.getElementById('page2_id1').style.display = 'none';
-  document.getElementById('page3_id1').style.display = 'none';
-  document.getElementById('page4_id1').style.display = 'none';
-  // document.getElementById('active').style.display = 'none';
-   const pages = document.querySelectorAll('.gen-con');
-  pages.forEach(page => {
-    page.style.display = 'none';
-  });
+  function deleteUser() {
+    var userId = document.getElementById("editUserId").value;
+    
+    // ตรวจสอบว่ามี User ID ที่กรอกไว้หรือไม่
+    if (userId) {
+      google.script.run.deleteUser(userId); // เรียกฟังก์ชัน deleteUser() จาก Google Apps Script
+      
+      // เคลียร์ฟอร์มหลังจากลบข้อมูล
+      document.getElementById("editUsername").value = "";
+      document.getElementById("editPassword").value = "";
+      document.getElementById("editTitle").value = "";
+      document.getElementById("editFirstname").value = "";
+      document.getElementById("editLastname").value = "";
+      document.getElementById("editAge").value = "";
+      document.getElementById("editJob").value = "";
+      document.getElementById("editIncome").value = "";
+      document.getElementById("editPhone").value = "";
+      document.getElementById("editRole").value = "";
+      document.getElementById("editUserId").value = ""; // เคลียร์ User ID ที่กรอก
+      alert("User deleted successfully!");
+    } else {
+      alert("Please enter a valid User ID.");
+    }
+  }
 
-  // แสดงหน้าแรก
-  document.getElementById('page1_id1').style.display = 'block';
-}
+  // ผูกฟังก์ชัน deleteUser() กับปุ่มลบ
+  document.querySelector(".delete-btn").addEventListener("click", deleteUser);
 
 
     function validateEmail(email) {
@@ -117,6 +129,13 @@ function goBack() {
         }else if (output === 'user') {
             document.getElementById("page1_id1").className = "page1_class1-off";
             document.getElementById("page3_id1").className = "page3_id1";
+            google.script.run.withSuccessHandler(function(balance) {
+              if(balance){
+                document.getElementById("userBalance").innerText = balance;
+              }else{
+                document.getElementById("userBalance").innerText = 'กำลังรออนุมัติ';
+              }
+            }).getUserBalance(username);
         } else {
             document.getElementById("errorMessage").innerHTML = "Not found account";
         }
@@ -216,6 +235,16 @@ function saveUserChanges() {
     document.getElementById("group3").innerText = data["phase3"].join(", ");
   }).getGroupsByPhase();
 }
+function loadBudgets() {
+  google.script.run.withSuccessHandler(function (budgets) {
+    document.getElementById("gbudget1").innerText = budgets["phase1"] || 0;
+    document.getElementById("gbudget2").innerText = budgets["phase2"] || 0;
+    document.getElementById("gbudget3").innerText = budgets["phase3"] || 0;
+  }).getBudgetByPhase();
+}
+
+
+
 
 
 function setPhase(){
@@ -263,6 +292,8 @@ window.onload = function() {
   loadBalance(); // ✅ เรียกใช้ฟังก์ชันที่ถูกต้อง
   loadCount();
   loadPayed();
+  loadPhaseGroups();
+  loadBudgets();
 };
 
 // ✅ ฟังก์ชันรีเฟรชข้อมูล
@@ -272,6 +303,7 @@ function refreshData() {
   loadCount();
   loadPayed();
   loadPhaseGroups();
+  loadBudgets();
 }
 
 // ✅ โหลดค่าทันทีเมื่อหน้าเว็บโหลดเสร็จ
