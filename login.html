@@ -103,9 +103,7 @@
     <center>
       <br>
       <h2>Hi <b id="displayuser"></b>!</h2>
-      <div class="user"></div>
-      <h2>You are user</h2>
-      <div></div>
+      <h2>You have received: <span id="userBalance"></span></h2>
       <br>
     </center>
   </div>
@@ -119,10 +117,9 @@
         <div class="con-menu">
           <a class="menu" onclick="showPage('search')">Search</a>
           <a class="menu" onclick="showPage('generate')">Genarate</a>
-          <a class="menu" onclick="showPage('piority')">Piority</a>
+          <a class="menu" onclick="showPage('piority')">Phase</a>
           <a class="menu" onclick="showPage('give')">Fund dashboard</a>
           <a class="menu" onclick="showPage('info')">Report</a>
-          <button class="back-btn" onclick="goBack()">Back</button>
         </div>
       </div>
       <div class="content" id="search">
@@ -218,7 +215,7 @@
         </div>
         <div></div>
         <div>
-          <button class="delete-btn">Delete</button>
+          <button class="delete-btn" onclick="deleteUser()">Delete</button>
         </div>
         <div></div>
         <button class="btn" onclick="saveUserChanges()">Update</button>
@@ -284,7 +281,7 @@
       <div class="content" id="give">
         <div></div>
         <div class="give-head">
-          <h2>Give</h2><br><br>
+          <h2>Dashboard</h2><br><br>
         </div>
         <div class="give-in">
           <div>
@@ -314,34 +311,40 @@
         </div>
         <div></div>
         <div>
-          <label for="">Phase</label><br>
-          <input type="text" id="phase1" disabled placeholder="Phase1">
+          <h3>Phase</h3>
         </div>
         <div>
-          <label for="">Group</label><br>
+          <h3>Group</h3>
+        </div>
+        <div>
+          <h3>Budget For Group</h3>
+        </div>
+        <div>
+          <p id="phase1">Phase1</p>
+        </div>
+        <div>
           <p id="group1"></p>
         </div>
         <div>
-          <label for="">แจกไปแล้ว</label><br>
-          <input type="text" id="date1" disabled>
+          <p id="gbudget1"></p>
         </div>
         <div>
-          <input type="text" id="phase2" disabled placeholder="Phase2">
+          <p id="phase2">Phase2</p>
         </div>
         <div>
           <p id="group2"></p>
         </div>
         <div>
-          <input type="text" id="date2" disabled>
+          <p id="gbudget2"></p>
         </div>
         <div>
-          <input type="text" id="phase3" disabled placeholder="Phase3">
+          <p id="phase3">Phase3</p>
         </div>
         <div>
           <p id="group3"></p>
         </div>
         <div>
-          <input type="text" id="date3" disabled>
+          <p id="gbudget3"></p>
         </div>
       </div>
     </div>
