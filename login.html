@@ -3,12 +3,10 @@
 
 <head>
   <base target="_top">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?!= include('css'); ?>
   <?!= include('script'); ?>
-
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
@@ -116,9 +114,18 @@
   <div class="page4_class1" id="page4_id1">
     <div class="p4-con">
       <div class="side-bar">
+        <div class="user"></div>
         <H1>Admin</H1>
+        <div class="con-menu">
+          <a class="menu" onclick="showPage('search')">Search</a>
+          <a class="menu" onclick="showPage('generate')">Genarate</a>
+          <a class="menu" onclick="showPage('piority')">Piority</a>
+          <a class="menu" onclick="showPage('give')">Fund dashboard</a>
+          <a class="menu" onclick="showPage('info')">Report</a>
+          <button class="back-btn" onclick="goBack()">Back</button>
+        </div>
       </div>
-      <div class="content">
+      <div class="content" id="search">
         <h3>Search User by ID</h3>
         <div class="con-search">
           <label for="searchUserId">UserID:</label>
@@ -138,18 +145,18 @@
         </div>
         <div>
           <label for="editPassword">Password</label>
-          <input type="password" id="editPassword" placeholder="Password" />
+          <input type="text" id="editPassword" placeholder="Password" />
         </div>
         <div>
           <label for="editTitle">Title</label><br>
           <select id="editTitle" name="editTitle">
-              <option value="" disabled selected>Title</option>
-              <option value="เด็กชาย">เด็กชาย</option>
-              <option value="เด็กหญิง">เด็กหญิง</option>
-              <option value="นาย">นาย</option>
-              <option value="นางสาว">นางสาว</option>
-              <option value="นาง">นาง</option>
-            </select>
+                  <option value="" disabled selected>Title</option>
+                  <option value="เด็กชาย">เด็กชาย</option>
+                  <option value="เด็กหญิง">เด็กหญิง</option>
+                  <option value="นาย">นาย</option>
+                  <option value="นางสาว">นางสาว</option>
+                  <option value="นาง">นาง</option>
+                </select>
         </div>
 
         <div>
@@ -170,52 +177,176 @@
         <div>
           <label for="editJob">Job</label><br>
           <select id="editJob" name="editJob">
-              <option value="" disabled selected>อาชีพ</option>
-              <option value="นักเรียน">นักเรียน</option>
-              <option value="พนักงานบริษัท">พนักงานบริษัท</option>
-              <option value="เจ้าของธุรกิจ">เจ้าของธุรกิจ</option>
-              <option value="ฟรีแลนซ์">ฟรีแลนซ์</option>
-              <option value="เกษตรกร">เกษตรกร</option>
-              <option value="อื่นๆ">อื่นๆ</option>
-            </select>
+                  <option value="" disabled selected>Job</option>
+                  <option value="นักเรียน">นักเรียน</option>
+                  <option value="พนักงานบริษัท">พนักงานบริษัท</option>
+                  <option value="เจ้าของธุรกิจ">เจ้าของธุรกิจ</option>
+                  <option value="ฟรีแลนซ์">ฟรีแลนซ์</option>
+                  <option value="เกษตรกร">เกษตรกร</option>
+                  <option value="อื่นๆ">อื่นๆ</option>
+                </select>
         </div>
 
         <div>
-          <label for="editIncome">Income</label>
+          <label for="editIncome">Income</label><br>
           <select id="editIncome" name="editIncome">
-              <option value="" disabled selected>รายได้</option>
-              <option value="ต่ำกว่า 10,000">ต่ำกว่า 10,000</option>
-              <option value="10,000 - 30,000">10,000 - 30,000</option>
-              <option value="30,000 - 50,000">30,000 - 50,000</option>
-              <option value="มากกว่า 50,000">มากกว่า 50,000</option>
-            </select>
+                  <option value="" disabled selected>Income</option>
+                  <option value="ต่ำกว่า 20,000">ต่ำกว่า 20,000</option>
+                  <option value="20,000 - 50,000">20,000 - 50,000</option>
+                  <option value="50,000 - 70,000">50,000 - 70,000</option>
+                  <option value="มากกว่า 70,000">มากกว่า 70,000</option>
+                </select>
         </div>
 
         <div>
-          <label for="editUserId">ID</label>
+          <label for="editUserId">ID</label><br>
           <input type="number" id="editUserId" name="editUserId" placeholder="ID" disabled>
         </div>
 
         <div>
-          <label for="editPhone">Phone Number</label>
+          <label for="editPhone">Phone Number</label><br>
           <input type="number" id="editPhone" placeholder="Phone Number" />
         </div>
 
         <div>
           <label for="editRole">Role</label><br>
           <select id="editRole" name="editRole">
-              <option value="" disabled selected>Role</option>
-              <option value="user">User</option>
-              <option value="admin">Admin</option>
-            </select>
+                  <option value="" disabled selected>Role</option>
+                  <option value="user">User</option>
+                  <option value="admin">Admin</option>
+                </select>
         </div>
         <div></div>
-        <div></div>
+        <div>
+          <button class="delete-btn">Delete</button>
+        </div>
         <div></div>
         <button class="btn" onclick="saveUserChanges()">Update</button>
       </div>
+      <div class="content" id="generate">
+        <div class="gen-head">
+          <h2>Genarate Users for test</h2>
+        </div>
+        <div class="gen-con">
+          <p>Enter number of tester:</p><br>
+          <input id="gen-input" type="number" min="1" max="1000" >
+          <div><br></div>
+          <button class="btn" type="submit" onclick="generateTestUsers()">Gen</button>
+          <div><br></div>
+          <p id="genResult"></p>
+        </div>
+      </div>
+      <div class="content" id="piority">
+        <div class="pio-head">
+          <h2>Phase Setup</h2>
+        </div>
+        <div class="pio-con">
+          <label for="group">Group</label><br>
+          <select id="group" name="group">
+                  <option value="" disabled selected>กลุ่ม</option>
+                  <option value="student">นักศึกษา</option>
+                  <option value="farmer">เกษตรกร</option>
+                  <option value="low-income">ผู้มีรายได้น้อย</option>
+                  <option value="older">ผู้สูงอายุ</option>
+                  <option value="normal">บุคคลทั่วไป</option>
+                </select><br>
+          <div><br></div>
+          <label for="phase">Phase</label><br>
+          <select id="g-phase" name="phase">
+                    <option value="" disabled selected>เฟส</option>
+                    <option value="phase1">เฟส1</option>
+                    <option value="phase2">เฟส2</option>
+                    <option value="phase3">เฟส3</option>
+                    <option value="No pass">ไม่ผ่านเกณฑ์</option>
+                  </select>
+          <div><br></div>
+          <label for="%">% Of Group</label><br>
+          <select id="persen" name="%">
+                    <option value="" disabled selected>%</option>
+                    <option value="0">0%</option>
+                    <option value="10">10%</option>
+                    <option value="20">20%</option>
+                    <option value="30">30%</option>
+                    <option value="40">40%</option>
+                    <option value="50">50%</option>
+                    <option value="60">60%</option>
+                    <option value="70">70%</option>
+                    <option value="80">80%</option>
+                    <option value="90">90%</option>
+                    <option value="100">100%</option>
+                  </select>
+          <div><br></div>
+          <button class="pio-btn" type="submit" onclick="setPhase()">Submit</button>
+          <div><br></div>
+          <p id="result-phase"></p>
+        </div>
+      </div>
+      <div class="content" id="give">
+        <div></div>
+        <div class="give-head">
+          <h2>Give</h2><br><br>
+        </div>
+        <div class="give-in">
+          <div>
+            <label for="a">แจกไปแล้ว</label><br>
+            <span id="payed"></span>บาท
+          </div>
+          <div>
+            <label for="b">คงเหลือ</label><br>
+            <span id="balance"></span>บาท
+          </div>
+        </div>
+        <div class="list-tb">
+          <label for="c">รายชื่อคนที่ได้รับแล้ว</label><br>
+          <span id="count-list"></span>คน<br>
+          <button onclick="refreshData()">Refresh</button>
+        </div>
+        <div class="slide-tb">
+          <div class="table">
+            <p>Loading data...</p>
+          </div>
+        </div>
+      </div>
+      <div class="content" id="info">
+        <div></div>
+        <div class="info-head">
+          <h2>Report</h2>
+        </div>
+        <div></div>
+        <div>
+          <label for="">Phase</label><br>
+          <input type="text" id="phase1" disabled placeholder="Phase1">
+        </div>
+        <div>
+          <label for="">Group</label><br>
+          <p id="group1"></p>
+        </div>
+        <div>
+          <label for="">แจกไปแล้ว</label><br>
+          <input type="text" id="date1" disabled>
+        </div>
+        <div>
+          <input type="text" id="phase2" disabled placeholder="Phase2">
+        </div>
+        <div>
+          <p id="group2"></p>
+        </div>
+        <div>
+          <input type="text" id="date2" disabled>
+        </div>
+        <div>
+          <input type="text" id="phase3" disabled placeholder="Phase3">
+        </div>
+        <div>
+          <p id="group3"></p>
+        </div>
+        <div>
+          <input type="text" id="date3" disabled>
+        </div>
+      </div>
     </div>
   </div>
+
 
   <script>
     const container = document.getElementById('container');
@@ -229,6 +360,13 @@
     loginBtn.addEventListener('click', () => {
       container.classList.remove("active");
     });
+
+function loadCount() {
+  google.script.run.withSuccessHandler(function(count) {
+    document.getElementById("count-list").innerHTML = count;
+  }).getVerifiedCount();
+}
+
   </script>
 </body>
 
