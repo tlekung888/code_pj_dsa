@@ -66,7 +66,7 @@ function AddRecord(usernamee, passwordd, title, firstname, lastname, age, job, i
     value = '50';
   }
 
-  webAppSheet.appendRow([usernamee, passwordd, title, firstname, lastname, age, job, income, userId, phone, 'user', group, value], 'wait');
+  webAppSheet.appendRow([usernamee, passwordd, title, firstname, lastname, age, job, income, userId, phone, 'user', group, value, 'wait']);
   return 'Account created successfully';
 }
 
