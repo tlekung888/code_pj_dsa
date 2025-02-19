@@ -1,5 +1,5 @@
 function doGet(e) {
-  var x = HtmlService.createTemplateFromFile("index");
+  var x = HtmlService.createTemplateFromFile("login");
   var y = x.evaluate();
   var z = y.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   return z;
