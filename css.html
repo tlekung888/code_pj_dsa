@@ -5,9 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Modern Login Page | AsmrProg</title>
-
   <style>
-   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
     .page1_class1-off {
       display: none;
@@ -15,7 +14,7 @@
 
 
     /*page2*/
-     .page2_class1 {
+    .page2_class1 {
       display: none;
     }
 
@@ -24,7 +23,7 @@
     }
 
     /*page3*/
-     .page3_class1 {
+    .page3_class1 {
       display: none;
 
     }
@@ -37,39 +36,56 @@
     .page4_class1 {
       display: none;
 
-    } */
+    }
 
-     .page4_id1-off {
+    .page4_id1-off {
       display: none;
     }
 
     .page5_class1 {
       display: none;
 
-    } 
+    }
 
     .page5_id1-off {
       display: none;
-    } 
+    }
+
 
     input[type=text]:hover {
-      border: 1px solid black;
+      border-radius: 5px;
+      border: solid 0.2px;
+      transform: scale(1.01);
+
     }
 
     input[type=number]:hover {
-      border: 1px solid black;
+      border-radius: 5px;
+      border: solid 0.2px;
+      transform: scale(1.01);
     }
 
     input[type=password]:hover {
-      border: 1px solid black;
+      border-radius: 5px;
+      border: solid 0.2px;
+      transform: scale(1.01);
     }
 
     input[type=email]:hover {
-      border: 1px solid black;
+      border-radius: 5px;
+      border: solid 0.2px;
+      transform: scale(1.01);
     }
 
     select:hover {
-      border: 1px solid black;
+      border-radius: 5px;
+      border: solid 0.2px;
+      transform: scale(1.01);
+    }
+
+    button:hover {
+      /* border: 1px solid black; */
+      transform: scale(1.03);
     }
 
     .user {
@@ -81,6 +97,7 @@
       position: relative;
       overflow: hidden;
       box-sizing: border-box;
+      margin-top: 15px;
     }
 
     .user::before {
@@ -136,56 +153,234 @@
       max-width: 100%;
       min-height: 480px;
     }
+
     .p4-con {
       background-color: #fff;
       border-radius: 30px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
       position: relative;
       overflow: hidden;
-      width: 768px;
+      width: 1084px;
       max-width: 100%;
-      min-height: 480px;
+      height: 565px;
       display: flex;
-      justify-content: space-between;
       /* padding: 20px; */
       /* flex-wrap: wrap; */
     }
-    .con-search{
-        display:flex;
-        height: 80px;
-    }
-    .con-search input{
-        height: 25px;
-        margin-left: 10px;
-    }
-    #searchUserId{
-        width: 180px;
+
+    .con-search {
+      display: flex;
+      height: 80px;
     }
 
-    .p4-con input{
-        width: 100%;
-        height: 25px;
+    .con-search label {
+      margin-top: 5px;
     }
-    .p4-con select{
-        height: 25px;
-        width: 100%;
+
+    #searchUserId {
+      width: 100%;
+      height: 35px;
+      margin-left: 10px
     }
-    .side-bar{
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-        background: linear-gradient(to right,#c4cef1, #feeeee );
-        border-radius: 10px;
+
+    .p4-con input {
+      width: 222px;
+      height: 35px;
+      border-radius: 5px;
+      border: solid 0.2px;
     }
-    .side-bar h1{
-        padding: 20px;
-        /* display: flex; */
+
+    .p4-con select {
+      height: 35px;
+      width: 100%;
+      border-radius: 5px;
+      border: solid 0.2px;
     }
-    .content{
-        display: grid; /* ใช้ grid */
-        grid-template-columns: repeat(3, 1fr); /* สร้าง 3 คอลัมน์ที่มีขนาดเท่ากัน */
-        gap: 20px; /* กำหนดระยะห่างระหว่างคอลัมน์ */
-        margin-left: 20px;
-        margin-top: 50px;
-        padding-right: 20px;
+
+    .side-bar {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+      background: linear-gradient(to right, #c4cef1, #feeeee);
+      border-radius: 10px;
+      width: 250px;
+      justify-items: center;
+      /* display:table; */
+      min-width: 250px;
+      max-width: 250px;
+    }
+
+    .side-bar h1 {
+      padding: 20px;
+      /* display: flex; */
+      margin-bottom: 30px;
+      text-align: center;
+      color: rgb(135, 95, 80);
+    }
+
+    .con-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .menu {
+      padding: 12px;
+      background-color: #805296;
+      width: 180px;
+      text-align: center;
+      border-radius: 20px;
+      color: white;
+      text-decoration: none;
+      margin: 3px;
+      font-size: 13px;
+    }
+
+    .menu:hover {
+      color: #512da8;
+      transform: scale(1.02);
+      cursor: pointer;
+    }
+
+
+    .content {
+      display: none;
+      /* ซ่อนเริ่มต้น */
+    }
+
+    .active {
+      display: block;
+      /* แสดงเมื่อมี class active */
+    }
+
+    .search-page {
+      display: grid;
+      /* ใช้ grid */
+      grid-template-columns: repeat(3, 1fr);
+      /* สร้าง 3 คอลัมน์ที่มีขนาดเท่ากัน */
+      gap: 20px;
+      /* กำหนดระยะห่างระหว่างคอลัมน์ */
+      margin-left: 20px;
+      margin-top: 50px;
+      padding: 20px;
+    }
+
+    .gen-page {
+      width: 100%;
+      display: grid;
+      justify-content: center;
+      margin-top: 20px;
+      align-content: center;
+    }
+
+    .gen-page input {
+      width: 100%;
+    }
+
+    /* .gen-page button{
+      margin-top: 30px;
+      margin-left: 120px;
+      background-color: #512da8;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 5px;
+    } */
+    .piority-page {
+      justify-items: center;
+      text-align: center;
+      width: 100%;
+      display: grid;
+    }
+
+    .pio-head {
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    .pio-btn {
+      background-color: #28a745;
+      /* สีเขียว */
+      color: white;
+      /* ตัวอักษรสีขาว */
+      font-size: 16px;
+      /* ขนาดตัวอักษร */
+      border-radius: 8px;
+      /* มุมปัดโค้ง */
+      border: none;
+      /* ไม่มีขอบ */
+      cursor: pointer;
+      /* เปลี่ยน cursor เป็นมือ */
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      /* เพิ่มเอฟเฟกต์เมื่อ hover */
+      width: 60%;
+      height: 50px;
+      text-transform: uppercase;
+    }
+
+    .pio-con select {
+      height: 40px;
+      width: 300px;
+    }
+
+    .give-page {
+      justify-items: center;
+      text-align: center;
+      width: 100%;
+      /* grid-template-columns: repeat(3, 1fr); */
+
+    }
+
+    .give-con {
+      width: 200px;
+    }
+
+    .give-head {
+      margin-top: 20px;
+    }
+
+    .give-con select {
+      border-radius: 5px;
+    }
+
+    .give-con select:hover {
+      transform: scale(1.02);
+    }
+
+    .give-btn {
+      color: #fff;
+      margin-top: 50px;
+      background-color: #512da8;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      width: 80px;
+    }
+
+    .info-page {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      padding: 20px;
+
+    }
+
+    .info-head {
+      text-align: center;
+    }
+
+    .info-page input {
+      width: 80%;
+      border-radius: 5px;
+      border: solid 0.2px;
+    }
+
+    .info-page input {
+      margin-left: 20px;
     }
 
     .container p {
@@ -220,33 +415,75 @@
       cursor: pointer;
     }
 
-    .btn{
-        background-color: #512da8;
+    /* สไตล์สำหรับปุ่มยืนยัน */
+    .btn {
+      background-color: #28a745;
+      /* สีเขียว */
+      color: white;
+      /* ตัวอักษรสีขาว */
+      padding: 12px 24px;
+      /* ขนาดของปุ่ม */
+      font-size: 16px;
+      /* ขนาดตัวอักษร */
+      border-radius: 8px;
+      /* มุมปัดโค้ง */
+      border: none;
+      /* ไม่มีขอบ */
+      cursor: pointer;
+      /* เปลี่ยน cursor เป็นมือ */
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      /* เพิ่มเอฟเฟกต์เมื่อ hover */
+      width: 50%;
+      height: 41px;
+      text-transform: uppercase;
+    }
+
+    .gen-con {
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: #218838;
+      /* เปลี่ยนสีเขียวเข้มเมื่อ hover */
+      transform: scale(1.05);
+      /* ขยายขนาดเล็กน้อยเมื่อ hover */
+    }
+
+    .btn:active {
+      background-color: #1e7e34;
+      /* สีเขียวเข้มสุดเมื่อคลิก */
+      transform: scale(1);
+      /* คืนขนาดปกติเมื่อคลิก */
+    }
+
+    .btn:focus {
+      outline: none;
+      /* เอาเส้นขอบออกเมื่อปุ่มถูกเลือก */
+    }
+
+    .delete-btn {
+      background-color: #bd3f2b;
       color: #fff;
-      font-size: 12px;
+      font-size: 16px;
       /* padding: 5px 10px; */
       border: 1px solid transparent;
       border-radius: 8px;
       font-weight: 600;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      /* เพิ่มเอฟเฟกต์เมื่อ hover */
       cursor: pointer;
       margin-right: 60px;
-      margin-bottom:50px;
+      margin-bottom: 50px;
+      width: 50%;
+      height: 41px;
     }
 
-    .s-btn{
-        /* background-color: #ffe100; */
-        /* color: #fff; */
-      font-size: 12px;
-      /* padding: 5px 10px; */
-      border: 1px solid transparent black;
-      border-radius: 5px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      cursor: pointer;
+    .btn:hover {
+      transform: scale(1.02);
     }
+
 
     .container button.hidden {
       background-color: transparent;
@@ -262,6 +499,7 @@
       padding: 0 40px;
       height: 500px;
     }
+
     .con-regis {
       background-color: #fff;
       display: flex;
@@ -269,11 +507,12 @@
       flex-direction: column;
       padding: 0 40px;
       height: 57%;
-      margin-top:50px;
+      margin-top: 50px;
     }
-    .slidebar{
-      overflow-y:scroll;
-      height:50%;
+
+    .slidebar {
+      overflow-y: scroll;
+      height: 50%;
     }
 
     .scroll-bar::-webkit-scrollbar {
@@ -292,16 +531,17 @@
       width: 100%;
       outline: none;
     }
+
     .container select {
-    background-color: #eee;
-    border: none;
-    margin: 8px 0;
-    padding: 10px 15px;
-    font-size: 13px;
-    border-radius: 8px;
-    width: 100%;
-    outline: none;
-}
+      background-color: #eee;
+      border: none;
+      margin: 8px 0;
+      padding: 10px 15px;
+      font-size: 13px;
+      border-radius: 8px;
+      width: 100%;
+      outline: none;
+    }
 
 
 
@@ -430,6 +670,62 @@
 
     .container.active .toggle-right {
       transform: translateX(200%);
+    }
+
+    .back-btn {
+      width: 70px;
+      height: 35px;
+      margin-top: 50px;
+      border-radius: 8px;
+      border: none;
+      background-color: #384a4a4c;
+      color: #000000;
+    }
+
+    .give-in {
+      /* margin-bottom:365px; */
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    .table {
+      max-width: 800px;
+      max-height: 300px;
+      /* ปรับให้เต็มความกว้าง */
+      overflow-y: scroll;
+      /* เลื่อนแนวนอนได้ถ้าตารางกว้างเกิน */
+      overflow-x: scroll;
+      margin-top: 45px;
+    }
+
+    /* .slide-tb {
+      overflow-x: scroll;
+      /* เลื่อนแนวนอนได้ถ้าตารางกว้างเกิน */
+    /* overflow-y: scroll;
+    } */
+
+    table {
+      width: auto;
+      /* ปรับขนาดตามเนื้อหา */
+      border-collapse: collapse;
+      /* ลดขอบตาราง */
+      font-size: 12px;
+      /* ✅ ลดขนาดตัวอักษร */
+    }
+
+    th,
+    td {
+      padding: 5px;
+      /* ✅ ลดขนาดช่องว่างในเซลล์ */
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
     }
   </style>
 </head>
