@@ -131,7 +131,7 @@
             document.getElementById("page3_id1").className = "page3_id1";
             google.script.run.withSuccessHandler(function(balance) {
               if(balance){
-                document.getElementById("userBalance").innerText = balance;
+                document.getElementById("userBalance").innerText = balance +" บาท";
               }else{
                 document.getElementById("userBalance").innerText = 'กำลังรออนุมัติ';
               }
