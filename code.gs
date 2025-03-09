@@ -1,5 +1,5 @@
 function doGet(e) {
-  var x = HtmlService.createTemplateFromFile("login");
+  var x = HtmlService.createTemplateFromFile("index");
   var y = x.evaluate();
   var z = y.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   return z;
@@ -49,7 +49,7 @@ function AddRecord(usernamee, passwordd, title, firstname, lastname, age, job, i
     group = 'low-income';
     value = '100';
   } else if (age >= '60') {//piority #2
-    group = 'older';
+    group = 'elderly';
     value = '90';
   } else if (job === 'เกษตรกร') {//piority #3
     group = 'farmer';
@@ -168,7 +168,7 @@ function generateUsers(count) {
     var age = Math.floor(Math.random() * 70) + 15;
     var job = ["พนักงานบริษัท", "เกษตรกร", "นักศึกษา", "ฟรีแลนซ์", "อื่นๆ"][Math.floor(Math.random() * 5)];
     var income = ["น้อยกว่า 20,000", "20,000 - 50,000", "50,000 - 70,000", "มากกว่า 70,000"][Math.floor(Math.random() * 4)];
-    var userId = Math.floor(1110000 + Math.random() * 1119999);
+    var userId = Math.floor(111111 + Math.random() * 555555);
     var phone = "08" + Math.floor(10000000 + Math.random() * 90000000);
     var role = "user";
     var group = ''
@@ -180,7 +180,7 @@ function generateUsers(count) {
       group = 'low-income';
       value = '100';
     } else if (age >= '60') {//piority #2
-      group = 'older';
+      group = 'elderly';
       value = '90';
     } else if (job === 'เกษตรกร') {//piority #3
       group = 'farmer';
